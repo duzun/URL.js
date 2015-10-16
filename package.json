@@ -1,0 +1,42 @@
+{
+  "name": "url-js",
+  "version": "0.0.8",
+  "description": "Simple URL parser, similar to DOM URL",
+  "main": "url.js",
+  "file": [
+    "url.js"
+  ],
+  "scripts": {
+    "build": "node build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "verup": "verup"
+  },
+  "verup": {
+    "files": [
+      "url.js"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duzun/URL.js.git"
+  },
+  "keywords": [
+    "URL",
+    "DOM",
+    "Parse",
+    "Parser",
+    "URI",
+    "http",
+    "hostname",
+    "pathname"
+  ],
+  "author": "Dumitru Uzun <contanct@duzun.me> (https://DUzun.Me)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/duzun/URL.js/issues"
+  },
+  "homepage": "https://github.com/duzun/URL.js#readme",
+  "devDependencies": {
+    "verup": "^1.3.4"
+  }
+}
