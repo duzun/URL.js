@@ -26,7 +26,7 @@ Parse and format URLs
 
     String(url) -> "https://duzun.me/path/index.php?var1=223#hash"
 
-// 2. Get par of an URL
+// 2. Get part of an URL
     URL.parseUrl("https://duzun.me/path/index.php?var1=223#hash", "origin") -> "https://duzun.me"
     URL.parseUrl("https://duzun.me/path/index.php?var1=223#hash", "pathname") -> "/path/index.php"
 
