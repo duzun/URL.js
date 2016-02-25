@@ -48,6 +48,6 @@ Parse and format URLs
 
 ```
 
-Note:   If included in global scope with a <script> tag,
+Note:   If included in global scope with a `<script>` tag,
         you can `var URLJS = URL.noConflict()` to restore original `window.URL` and
         keep using `URLJS` in your module.
