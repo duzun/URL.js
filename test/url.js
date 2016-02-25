@@ -2,7 +2,7 @@
 var URL = require('..');
 
 describe('URL', function() {
-    var completeURL = 'https://me:pass@www.duzun.me:443/playground/genpasswd?some=var&enc=don%27t&e#andHash';
+    var completeURL = 'https://me:pass@www.duzun.me:443/playground/genpasswd?some=var&enc=don%27t&e&w=w+w#andHash';
 
     describe('new URL(url, baseURL)', function() {
         it('should create an instance of URL or throw', function () {
@@ -72,13 +72,13 @@ describe('URL', function() {
             u.pathname.should.eql("/playground/genpasswd");
             u.port.should.eql("443");
             u.protocol.should.eql("https:");
-            u.search.should.eql("?some=var&enc=don%27t&e");
+            u.search.should.eql("?some=var&enc=don%27t&e&w=w+w");
             u.username.should.eql("me");
 
             // non-standard
             u.domain.should.eql("duzun.me");
-            u.path.should.eql("/playground/genpasswd?some=var&enc=don%27t&e");
-            u.query.should.eql("some=var&enc=don%27t&e");
+            u.path.should.eql("/playground/genpasswd?some=var&enc=don%27t&e&w=w+w");
+            u.query.should.eql("some=var&enc=don%27t&e&w=w+w");
         });
     });
 
@@ -86,7 +86,7 @@ describe('URL', function() {
         it('should return only the requested part of the parsed URL', function () {
             URL.parseUrl(completeURL, 'hostname').should.eql("www.duzun.me");
             URL.parseUrl(completeURL, 'domain').should.eql("duzun.me");
-            URL.parseUrl(completeURL, 'query').should.eql("some=var&enc=don%27t&e");
+            URL.parseUrl(completeURL, 'query').should.eql("some=var&enc=don%27t&e&w=w+w");
         });
     });
 
@@ -94,7 +94,7 @@ describe('URL', function() {
         it('should return an object of parsed search query', function () {
             var q = URL.parseUrl(completeURL, 'query', true);
             q.should.be.an.Object();
-            q.should.eql({e: "", enc: "don't", some: "var"});
+            q.should.eql({w: "w w", e: "", enc: "don't", some: "var"});
         });
     });
 
