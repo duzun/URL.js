@@ -1,6 +1,6 @@
-# URL.js
-Parse and format URLs
+# URL.js [![Build Status](https://travis-ci.org/duzun/URL.js.svg?branch=master)](https://travis-ci.org/duzun/URL.js)
 
+Parse and format URLs
 
 ## Usage
 
