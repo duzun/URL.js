@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+- "stable"
+- "5.0"
+- "4.0"
+- '0.12'
+- '0.11'
+- '0.10'
+
+matrix:
+    allow_failures:
+        - node_js: '0.10'
+
+sudo: false
+
+cache:
+    directories:
+        - node_modules
+
+deploy:
+  provider: npm
+  email: contact@duzun.me
+  api_key:
+    secure: UeTmKdjg0MEmy8iK0ZmlmNww+hytHQoEkh7uhssV2Pizq2sSEKki9m64v7xe35Kwk38TcbMvrZkwtim/ZnZt1JJ2LOw8Ogz88OVviqAfkHOe2VRH8SrP3NpRFGFWLZ0JmvKGkvCLiDkLHiz+vSegUXDPwyGdpS932lyxJ5U3ntE=
+  on:
+    tags: true
+    repo: duzun/url.js
+

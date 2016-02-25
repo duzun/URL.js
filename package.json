@@ -1,6 +1,6 @@
 {
   "name": "url-js",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "Simple URL parser, similar to DOM URL",
   "main": "url.js",
   "file": [
@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "node build",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --require should --reporter spec",
     "verup": "verup"
   },
   "verup": {
@@ -38,6 +38,8 @@
   },
   "homepage": "https://github.com/duzun/URL.js#readme",
   "devDependencies": {
-    "verup": "^1.3.4"
+    "mocha": "*",
+    "should": "*",
+    "verup": "^1.x"
   }
 }

@@ -6,37 +6,48 @@ Parse and format URLs
 
 ```javascript
 // 1. Parse full URL
-    var url = URL("https://duzun.me/path/index.php?var1=223#hash") ->
+    var url = URL("https://www.duzun.me/path/index.php?var1=223#hash") ->
     {
       "protocol": "https:",
       "username": "",
       "password": "",
-      "host"    : "duzun.me",
-      "hostname": "duzun.me",
+      "host"    : "www.duzun.me",
+      "hostname": "www.duzun.me",
       "port"    : "",
       "pathname": "/path/index.php",
       "search"  : "?var1=223",
       "query"   : "var1=223",
       "hash"    : "#hash",
       "path"    : "/path/index.php?var1=223",
-      "origin"  : "https://duzun.me",
+      "origin"  : "https://www.duzun.me",
       "domain"  : "duzun.me",
-      "href"    : "https://duzun.me/path/index.php?var1=223#hash"
+      "href"    : "https://www.duzun.me/path/index.php?var1=223#hash"
     }
 
-    String(url) -> "https://duzun.me/path/index.php?var1=223#hash"
+    String(url) -> "https://www.duzun.me/path/index.php?var1=223#hash"
 
-// 2. Get part of an URL
-    URL.parseUrl("https://duzun.me/path/index.php?var1=223#hash", "origin") -> "https://duzun.me"
-    URL.parseUrl("https://duzun.me/path/index.php?var1=223#hash", "pathname") -> "/path/index.php"
 
-// 3. Validation
+// 2. Compute full URL for a relative URL
+    String( URL("new/?and=var", url) ) -> "https://www.duzun.me/path/new/?and=var"
+
+
+// 3. Get part of an URL
+    URL.parseUrl("https://duzun.me/path/index.php", "origin") -> "https://duzun.me"
+    URL.parseUrl("https://duzun.me/path/index.php", "pathname") -> "/path/index.php"
+    URL.parseUrl("https://duzun.com/?var1=2&var2=d%27t&var3", "query", true) -> { var1: "2", var2: "d't", var3: "" }
+
+
+// 4. Validation
     URL.is_url('http://duzun.me') -> true
     URL.is_domain('duzun.me')     -> true
 
-// 4. GET < - > Object conversion
+
+// 5. GET < - > Object conversion
     URL.fromObject({a:1,b:4}, "?")   -> "?&a=1&b=4"
-    URL.toObject('a=1&b=4')          -> {a: 1, b: 4}
+    URL.toObject('a=1&b=4')          -> { a: 1, b: 4 }
 
 ```
 
+Note:   If included in global scope with a <script> tag,
+        you can `var URLJS = URL.noConflict()` to restore original `window.URL` and
+        keep using `URLJS` in your module.
