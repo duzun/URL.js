@@ -41,5 +41,19 @@
     "mocha": "*",
     "should": "*",
     "verup": "^1.x"
-  }
+  },
+  "jshintConfig": {
+    "laxbreak": true,
+    "laxcomma": true,
+    "undef": true,
+    "unused": true,
+    "sub": true,
+    "expr": true,
+    "bitwise": false,
+    "eqeqeq": false,
+    "boss": true,
+    "eqnull": true,
+    "scripturl": true,
+    "-W041": false
+  }  
 }

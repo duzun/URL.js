@@ -42,14 +42,16 @@
  *  @umd AMD, Browser, CommonJs, noDeps
  */
 // ---------------------------------------------------------------------------
+/*globals define, module, global, self*/
+// ---------------------------------------------------------------------------
 ;(function (name, global, String, Object, RegExp) {
     // ---------------------------------------------------------------------------
     // Some globals:
-    var toString           = ({}).toString
-    ,   trim               = ''.trim
+    var trim               = ''.trim
     ,   encodeURIComponent = global.encodeURIComponent
     ,   decodeURIComponent = global.decodeURIComponent
     ;
+
 
     // UMD:
     (typeof define !== 'function' || !define.amd
@@ -99,7 +101,8 @@
             }
         }
 
-        var undefined // anti-`asshole effect` (undefined = true;)
+        // anti-`asshole effect` (eg. undefined = true;)
+        var undefined //jshint ignore:line
         // ---------------------------------------------------------------------------
         ,   _ = URL
         ,   __ = _.prototype
@@ -116,7 +119,7 @@
                       configurable: true,
                       enumerable: false,
                       writeable: true
-                  })
+                  });
               }
               : function (name, func, proto) {
                   // Take care with (for ... in) on strings!
@@ -159,7 +162,7 @@
 
         // ---------------------------------------------------------------------------
         function _uri_to_string_() {
-            return _.fromLocation(this)
+            return _.fromLocation(this);
         }
         __ex('toString', _uri_to_string_);
         __ex('valueOf', _uri_to_string_);
@@ -184,7 +187,7 @@
                 else {
                     ret = new URL();
                     for(i in map) if(map.hasOwnProperty(i)) {
-                        ret[i] = match[map[i]] || NIL
+                        ret[i] = match[map[i]] || NIL;
                     }
                     if(!ret.pathname) ret.pathname = '/';
                     ret.path = ret.pathname + ret.search;
@@ -195,11 +198,11 @@
                     if(part) ret = ret[part];
                 }
             }
-            return ret
-        }
+            return ret;
+        };
 
         _.fromLocation = function (o) {
-            var url = [], t, s;
+            var url = [], t;
             if(t = o.protocol) url[url.length] = t.toLowerCase() + '//';
             if((t = o.username) || o.password) {
                 url[url.length] = t || NIL;
@@ -223,7 +226,7 @@
             if(t = o.hash) url[url.length] = (t.substr(0,1) == '#' ? NIL : '#') + t;
 
             return url.join(NIL);
-        }
+        };
         // ---------------------------------------------------------------------------
         _.toObject = function (str, sep, eq, ndec) {
             if(sep == undefined) sep = '&';
@@ -246,7 +249,7 @@
         _.fromObject = function (o, pref, nenc) {
             var r = Object.keys(o),
                 i = r.length,
-                n, v, u;
+                n, v;
             r.sort();
             nenc = nenc ? encodeAmp : encodeURIComponent;
             for ( ; i--; ) {
@@ -264,19 +267,19 @@
             // );
             r = r.join('&');
             if(pref) r = pref + (typeof pref != 'string' || pref.indexOf('?') < 0 ? '?' : '&') + r;
-            return r
+            return r;
         };
         // ---------------------------------------------------------------------------
-        _.is_url     = function _is_url(str)    { return _is_url_r_.test(str)    };
-        _.is_domain  = function _is_domain(str) { return _is_domain_r_.test(str) };
+        _.is_url     = function _is_url(str)    { return _is_url_r_.test(str);    };
+        _.is_domain  = function _is_domain(str) { return _is_domain_r_.test(str); };
         // ---------------------------------------------------------------------------
         // ---------------------------------------------------------------------------
         // Helpers:
         function decodeAmp(str) {
-            return String(str).replace(/%26/g, '&')
+            return String(str).replace(/%26/g, '&');
         }
         function encodeAmp(str) {
-            return String(str).replace(/\&/g, '%26')
+            return String(str).replace(/\&/g, '%26');
         }
         function urldecode(str) {
             return decodeURIComponent(String(str).replace(/\+/g, '%20'));
