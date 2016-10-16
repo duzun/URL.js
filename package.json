@@ -1,6 +1,6 @@
 {
   "name": "url-js",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Simple URL parser, similar to DOM URL",
   "main": "url.js",
   "file": [
@@ -55,5 +55,5 @@
     "eqnull": true,
     "scripturl": true,
     "-W041": false
-  }  
+  }
 }
