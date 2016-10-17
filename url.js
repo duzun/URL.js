@@ -37,7 +37,7 @@
  *
  *
  *  @license MIT
- *  @version 0.2.0
+ *  @version 0.2.1
  *  @author Dumitru Uzun (DUzun.Me)
  *  @umd AMD, Browser, CommonJs, noDeps
  */
@@ -99,10 +99,9 @@
                 throw new SyntaxError("Failed to construct 'URL': Invalid URL");
             }
         }
-        
+
         if ( _URL ) {
             URL._ = _URL; // original URL implementation
-            URL.prototype = _URL.prototype;
 
             for(var i in _URL) if( hop.call(_URL, i) ) {
                 URL[i] = _URL[i];
@@ -198,7 +197,7 @@
                         ret[i] = match[map[i]] || NIL;
                     }
                     if(!ret.pathname) ret.pathname = '/';
-                    ret.path = ret.pathname + ret.search;
+                    ret.path   = ret.pathname + ret.search;
                     ret.origin = ret.protocol + '//' + ret.host;
                     ret.domain = ret.hostname.replace(/^www./, NIL).toLowerCase();
                     if ( parseQuery ) ret.query = _.toObject(ret.query||NIL);
