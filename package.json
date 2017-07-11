@@ -6,6 +6,7 @@
   "file": [
     "url.js"
   ],
+  "reveal": true,
   "scripts": {
     "build": "node build",
     "test": "mocha --require should --reporter spec",
