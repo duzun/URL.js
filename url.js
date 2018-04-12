@@ -37,7 +37,7 @@
  *
  *
  *  @license MIT
- *  @version 0.2.1
+ *  @version 0.2.2
  *  @author Dumitru Uzun (DUzun.Me)
  *  @umd AMD, Browser, CommonJs, noDeps
  */
