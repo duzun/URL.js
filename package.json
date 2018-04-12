@@ -3,6 +3,7 @@
   "version": "0.2.1",
   "description": "Simple URL parser, similar to DOM URL",
   "main": "url.js",
+  "unpkg": "dist/url.min.js",
   "file": [
     "url.js"
   ],
@@ -39,6 +40,7 @@
   },
   "homepage": "https://github.com/duzun/URL.js#readme",
   "devDependencies": {
+    "gccs": "^1.0.0",
     "mocha": "*",
     "should": "*",
     "verup": "^1.x"
