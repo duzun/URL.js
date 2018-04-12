@@ -30,6 +30,7 @@
     "Parser",
     "URI",
     "http",
+    "origin",
     "hostname",
     "pathname"
   ],
