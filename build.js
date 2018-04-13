@@ -1,5 +1,5 @@
 /**
- *   Compile JS files using Closure-Compiler service
+ * Compile JS files using Closure-Compiler service
  */
 
 /*jshint node: true*/
@@ -35,7 +35,8 @@ hashes.forEach(function (name) {
 
     gccs.file(filename, dest_min_ver_filename, function (err) {
         if (err) {
-            return console.error(err);
+            console.error(err);
+            process.exit(1);
         }
         log_green(dest_min_ver_filename);
         cp(dest_min_ver_filename, dest_min_filename);

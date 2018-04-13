@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/duzun/URL.js#readme",
   "devDependencies": {
-    "gccs": "^1.1.0",
+    "gccs": "^1.2.0",
     "mocha": "^5.1.0",
     "should": "*",
     "verup": "^1.x"
