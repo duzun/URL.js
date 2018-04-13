@@ -8,7 +8,7 @@ Parse and format URLs
 
 The simplest way is to include [`URL.js`](https://unpkg.com/url-js) in your HTML:
 
-```htmp
+```html
 <script src="https://unpkg.com/url-js"></script>
 ```
 
@@ -48,7 +48,7 @@ The simplest way is to include [`URL.js`](https://unpkg.com/url-js) in your HTML
 
 
 // 4. Validation
-    URL.is_url('http://duzun.me') -> true
+    URL.is_url('https://duzun.me') -> true
     URL.is_domain('duzun.me')     -> true
 
 
