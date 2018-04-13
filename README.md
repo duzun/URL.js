@@ -2,6 +2,16 @@
 
 Parse and format URLs
 
+## Install
+
+`URL.js` uses [UMD](https://github.com/umdjs/umd).
+
+The simplest way is to include [`URL.js`](https://unpkg.com/url-js) in your HTML:
+
+```htmp
+<script src="https://unpkg.com/url-js"></script>
+```
+
 ## Usage
 
 ```javascript
