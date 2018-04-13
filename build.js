@@ -8,12 +8,11 @@ var fs   = require('fs');
 var path = require('path');
 var gccs = require('gccs');
 
-
 var dir = __dirname;
 // var dir = path.join(__dirname, '..'); // uncomment this if you move build.js to /tools folder
 var dist = path.join(dir, 'dist');
 var packo = require(path.join(dir, 'package.json'));
-var version = packo.version;
+// var version = packo.version;
 var hashes = [path.basename(packo.main, '.js')];
 
 if ( !fs.existsSync(dist) ) {
@@ -25,31 +24,30 @@ hashes.forEach(function (name) {
 
     var dest_filename         = path.join(dist, name + '.js');
     var dest_min_filename     = path.join(dist, name + '.min.js');
-    var dest_ver_filename     = path.join(dist, name + '.' + version + '.js');
-    var dest_min_ver_filename = path.join(dist, name + '.' + version + '.min.js');
 
-    cp(filename, dest_filename);
-    cp(filename, dest_ver_filename, function () {
-        log_green(dest_ver_filename);
-    });
+    gcc(filename, dest_filename, { compilation_level: 'WHITESPACE_ONLY', formatting: 'pretty_print' });
+    gcc(filename, dest_min_filename);
+});
 
-    gccs.file(filename, dest_min_ver_filename, function (err) {
+function gcc(src, dest, opt) {
+    if ( !opt ) opt = {};
+    opt.out_file = dest;
+    gccs.file(src, opt, function (err) {
         if (err) {
             console.error(err);
             process.exit(1);
         }
-        log_green(dest_min_ver_filename);
-        cp(dest_min_ver_filename, dest_min_filename);
+        log_green(dest);
     });
-});
-
-function cp(src, dest, cb) {
-    var s = fs.createReadStream(src).pipe(fs.createWriteStream(dest));
-    if ( cb ) {
-        s.on('finish', cb);
-    }
-    return s;
 }
+
+// function cp(src, dest, cb) {
+//     var s = fs.createReadStream(src).pipe(fs.createWriteStream(dest));
+//     if ( cb ) {
+//         s.on('finish', cb);
+//     }
+//     return s;
+// }
 
 function log_green(txt) {
     console.log("\x1b[32m%s\x1b[0m", txt);

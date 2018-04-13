@@ -1,8 +1,10 @@
 {
   "name": "url-js",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Simple URL parser, similar to DOM URL",
-  "main": "url.js",
+  "main": "dist/url.js",
+  "module": "url.js",
+  "esnext": "url.js",
   "unpkg": "dist/url.min.js",
   "file": [
     "url.js"

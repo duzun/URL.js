@@ -37,28 +37,31 @@
  *
  *
  *  @license MIT
- *  @version 0.2.2
+ *  @version 0.2.3
  *  @author Dumitru Uzun (DUzun.Me)
  *  @umd AMD, Browser, CommonJs, noDeps
  */
 // ---------------------------------------------------------------------------
+/*jshint esversion: 6*/
 /*globals define, module, global, self*/
 // ---------------------------------------------------------------------------
 ;(function (name, global, String, Object, RegExp) {
     // ---------------------------------------------------------------------------
     // Some globals:
-    var trim               = ''.trim
-    ,   hop                = ({}.hasOwnProperty)
-    ,   encodeURIComponent = global.encodeURIComponent
-    ,   decodeURIComponent = global.decodeURIComponent
-    ,   _URL               = global.URL // in newer browsers there is a URL class
-    ;
+    const {
+        encodeURIComponent,
+        decodeURIComponent,
+        URL: _URL, // in newer browsers there is a URL class
+    } = global;
+
+    const hop  = ({}.hasOwnProperty);
+    let trim   = ''.trim;
 
     // UMD:
     (typeof define !== 'function' || !define.amd
         ? typeof module == 'undefined' || !module.exports
             // Browser
-            ? function (deps, factory) {
+            ? (deps, factory) => {
                 var URL =  factory();
                 URL.noConflict = function () {
                     if ( global[name] === URL ) global[name] = _URL;
@@ -67,7 +70,7 @@
                 global[name] = URL;
             }
             // CommonJs
-            : function (deps, factory) { module.exports = factory(); }
+            : (deps, factory) => { module.exports = factory(); }
         // AMD
         : define
     )
@@ -76,7 +79,7 @@
         // Constructor
         function URL(url, baseURL) {
             if ( url != undefined ) {
-                var _url = URL.parseUrl(url);
+                let _url = URL.parseUrl(url);
                 if ( _url !== false ) return _url;
                 if ( baseURL ) {
                     _url = URL.parseUrl(baseURL);
@@ -85,7 +88,7 @@
                     if ( url.slice(0,2) == '//' ) {
                         return URL.parseUrl(_url.protocol + url);
                     }
-                    var _path;
+                    let _path;
                     if ( url.slice(0,1) == '/' ) {
                         _path = url;
                     }
@@ -103,15 +106,15 @@
         if ( _URL ) {
             URL._ = _URL; // original URL implementation
 
-            for(var i in _URL) if( hop.call(_URL, i) ) {
+            for(let i in _URL) if( hop.call(_URL, i) ) {
                 URL[i] = _URL[i];
             }
         }
 
         // anti-`asshole effect` (eg. undefined = true;)
-        var undefined //jshint ignore:line
+        var undefined; //jshint ignore:line
         // ---------------------------------------------------------------------------
-        ,   _ = URL
+        const _ = URL
         ,   __ = _.prototype
         // ---------------------------------------------------------------------------
         ,   NIL = ''
@@ -120,7 +123,7 @@
         ,   _is_domain_r_ = /^[a-z0-9][0-9a-z_\-]*(?:\.[a-z0-9][0-9a-z_\-]*)*$/
         // ---------------------------------------------------------------------------
         ,   __ex = typeof Object.defineProperty == 'function'
-              ? function (name, func, proto) {
+              ? (name, func, proto) => {
                   Object.defineProperty(proto||__, name, {
                       value: func,
                       configurable: true,
@@ -128,14 +131,14 @@
                       writeable: true
                   });
               }
-              : function (name, func, proto) {
+              : (name, func, proto) => {
                   // Take care with (for ... in) on strings!
                   (proto||__)[name] = func;
               }
         ;
         // ---------------------------------------------------------------------------
         if ( typeof trim != 'function' ) {
-            var _ws_  = "\x09-\x0D\x20\xA0"
+            const _ws_  = "\x09-\x0D\x20\xA0"
             ,   _lwsr_ = new RegExp('^['+_ws_+']+')
             ,   _rwsr_ = new RegExp('['+_ws_+']+$')
             ;
@@ -145,7 +148,7 @@
             };
         }
         // ---------------------------------------------------------------------------
-        var _parse_url_exp = new RegExp([
+        const _parse_url_exp = new RegExp([
                 '^([\\w.+\\-\\*]+:)//'          // protocol
               , '(([^:/?#]*)(?::([^/?#]*))?@|)' // username:password
               , '(([^:/?#]*)(?::(\\d+))?)'      // host == hostname:port
@@ -277,8 +280,8 @@
             return r;
         };
         // ---------------------------------------------------------------------------
-        _.is_url     = function _is_url(str)    { return _is_url_r_.test(str);    };
-        _.is_domain  = function _is_domain(str) { return _is_domain_r_.test(str); };
+        _.is_url     = (str) => _is_url_r_.test(str);
+        _.is_domain  = (str) => _is_domain_r_.test(str);
         // ---------------------------------------------------------------------------
         // ---------------------------------------------------------------------------
         // Helpers:

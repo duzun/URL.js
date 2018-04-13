@@ -1,9 +1,6 @@
 /node_modules/
 /test/
 
-/dist/url.*.js
-/dist/url.*.min.js
-
 .editorconfig
 .travis.yml
 
