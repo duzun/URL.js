@@ -6,9 +6,6 @@
   "module": "url.js",
   "esnext": "url.js",
   "unpkg": "dist/url.min.js",
-  "file": [
-    "url.js"
-  ],
   "reveal": true,
   "scripts": {
     "build": "node build",
@@ -17,6 +14,7 @@
   },
   "verup": {
     "files": [
+      "package-lock.json",
       "bower.json",
       "url.js"
     ]
@@ -43,10 +41,10 @@
   },
   "homepage": "https://github.com/duzun/URL.js#readme",
   "devDependencies": {
-    "gccs": "^1.2.0",
-    "mocha": "^5.1.0",
+    "gccs": "^1.2",
+    "mocha": "^5.1",
     "should": "*",
-    "verup": "^1.x"
+    "verup": "^1.6"
   },
   "jshintConfig": {
     "laxbreak": true,
