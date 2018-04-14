@@ -1,4 +1,5 @@
 language: node_js
+
 node_js:
 - "stable"
 - "9.0"
@@ -9,6 +10,7 @@ node_js:
 - "4.0"
 
 matrix:
+    fast_finish: true
     allow_failures:
         - node_js: '4.0'
 
@@ -26,4 +28,3 @@ deploy:
   on:
     tags: true
     repo: duzun/URL.js
-
