@@ -1,6 +1,6 @@
 {
   "name": "url-js",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Simple URL parser, similar to DOM URL",
   "main": "dist/url.js",
   "module": "url.js",
@@ -41,10 +41,10 @@
   },
   "homepage": "https://github.com/duzun/URL.js#readme",
   "devDependencies": {
-    "gccs": "^1.2",
-    "mocha": "^5.1",
-    "should": "*",
-    "verup": "^1.6"
+    "gccs": "^1.3.0",
+    "mocha": "^6.1.4",
+    "should": "^13.2.3",
+    "verup": "^1.7.0"
   },
   "jshintConfig": {
     "laxbreak": true,

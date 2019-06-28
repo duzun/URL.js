@@ -1,3 +1,4 @@
+/*globals require, describe, it*/
 
 var URL = require('..');
 
@@ -30,6 +31,10 @@ describe('URL', function() {
             String(m).should.eql('https://www.example.com/path/xyz?var=123');
             String(n).should.eql('https://www.example.com/path/zyx?u');
 
+            // Rebuild .search from .query
+            delete m.search;
+            String(m).should.eql('https://www.example.com/path/xyz?var=123');
+
             try {
                 var i = new URL('/en-US/docs', '');
                 i.should.eql(false, 'must throw');
@@ -46,16 +51,17 @@ describe('URL', function() {
 
     describe('URL.parseUrl(url)', function () {
         it('should return false when url not a valid URL', function () {
-            var u = URL.parseUrl('/');
+            var u;
+            u  = URL.parseUrl('/');
             u.should.eql(false);
 
-            var u = URL.parseUrl('//example.com');
+            u = URL.parseUrl('//example.com');
             u.should.eql(false);
 
-            var u = URL.parseUrl('//example.com/?test=var');
+            u = URL.parseUrl('//example.com/?test=var');
             u.should.eql(false);
 
-            var u = URL.parseUrl('://example.com');
+            u = URL.parseUrl('://example.com');
             u.should.eql(false);
         });
 
@@ -98,5 +104,24 @@ describe('URL', function() {
         });
     });
 
-});
+    describe('URL.parseUrl(url, undefined, true)', function () {
+        var u;
+        it('should return an instance of URL, with parsed .query', function () {
+            u = URL.parseUrl(completeURL, undefined, true);
+            (u instanceof URL).should.be.true();
+            u.should.be.an.Object();
+        });
 
+        it('should rebuild .search from .query', function () {
+            // Test reconstruct from .query
+            delete u.search;
+
+            u.query = {x:123};
+            String(u).should.eql(completeURL.replace(/\?[^#]*#/, '?x=123#'));
+
+            u.query = {};
+            String(u).should.eql(completeURL.replace(/\?[^#]*#/, '#'));
+        });
+    });
+
+});

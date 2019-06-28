@@ -37,7 +37,7 @@
  *
  *
  *  @license MIT
- *  @version 0.2.3
+ *  @version 0.2.4
  *  @author Dumitru Uzun (DUzun.Me)
  *  @umd AMD, Browser, CommonJs, noDeps
  */
@@ -213,27 +213,29 @@
 
         _.fromLocation = function (o) {
             var url = [], t;
-            if(t = o.protocol) url[url.length] = t.toLowerCase() + '//';
+            if(t = o.protocol) url.push(t.toLowerCase() + '//');
             if((t = o.username) || o.password) {
-                url[url.length] = t || NIL;
-                if(t = o.password) url[url.length] = ':' + t;
-                url[url.length] = '@';
+                url.push(t || NIL);
+                if(t = o.password) url.push(':' + t);
+                url.push('@');
             }
             if(t = o.hostname) {
-                url[url.length] = t.toLowerCase();
-                if(t = o.port) url[url.length] = ':' + t;
+                url.push(t.toLowerCase());
+                if(t = o.port) url.push(':' + t);
             }
             else
-            if(t = o.host) url[url.length] = t.toLowerCase();
+            if(t = o.host) url.push(t.toLowerCase());
 
-            if(t = o.pathname) url[url.length] = (t.substr(0,1) == '/' ? NIL : '/') + t;
+            if(t = o.pathname) url.push((t.substr(0,1) == '/' ? NIL : '/') + t);
             if(t = o.search || o.query)   {
                 if(typeof t == 'object') {
                     t = _.fromObject(t);
                 }
-                url[url.length] = (t.substr(0,1) == '?' ? NIL : '?') + t;
+                if (t && t != '?') {
+                    url.push((t.substr(0,1) == '?' ? NIL : '?') + t);
+                }
             }
-            if(t = o.hash) url[url.length] = (t.substr(0,1) == '#' ? NIL : '#') + t;
+            if(t = o.hash) url.push((t.substr(0,1) == '#' ? NIL : '#') + t);
 
             return url.join(NIL);
         };
@@ -260,6 +262,9 @@
             var r = Object.keys(o),
                 i = r.length,
                 n, v;
+
+            if(!r.length) return pref ? pref + '' : '';
+
             r.sort();
             nenc = nenc ? encodeAmp : encodeURIComponent;
             for ( ; i--; ) {
