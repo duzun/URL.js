@@ -1,4 +1,4 @@
-/*globals require, describe, it*/
+/*globals require, describe, it, expect*/
 
 var URL = require('.');
 
@@ -19,31 +19,31 @@ describe('URL', function() {
             var m = new URL('//www.example.com/path/xyz?var=123', b);
             var n = new URL('zyx?u', m);
 
-            String(a).should.eql('https://www.duzun.me/');
-            String(b).should.eql('https://www.duzun.me/');
-            String(c).should.eql('https://www.duzun.me/en-US/docs');
-            String(d).should.eql('https://www.duzun.me/en-US/docs');
-            String(f).should.eql('https://www.duzun.me/en-US/docs');
-            String(g).should.eql('https://www.duzun.me/en-US/docs');
-            String(h).should.eql('https://www.duzun.me/en-US/docs');
-            String(k).should.eql('http://www.example.com/');
-            String(l).should.eql('http://www.example.com/');
-            String(m).should.eql('https://www.example.com/path/xyz?var=123');
-            String(n).should.eql('https://www.example.com/path/zyx?u');
+            expect(String(a)).toBe('https://www.duzun.me/');
+            expect(String(b)).toBe('https://www.duzun.me/');
+            expect(String(c)).toBe('https://www.duzun.me/en-US/docs');
+            expect(String(d)).toBe('https://www.duzun.me/en-US/docs');
+            expect(String(f)).toBe('https://www.duzun.me/en-US/docs');
+            expect(String(g)).toBe('https://www.duzun.me/en-US/docs');
+            expect(String(h)).toBe('https://www.duzun.me/en-US/docs');
+            expect(String(k)).toBe('http://www.example.com/');
+            expect(String(l)).toBe('http://www.example.com/');
+            expect(String(m)).toBe('https://www.example.com/path/xyz?var=123');
+            expect(String(n)).toBe('https://www.example.com/path/zyx?u');
 
             // Rebuild .search from .query
             delete m.search;
-            String(m).should.eql('https://www.example.com/path/xyz?var=123');
+            expect(String(m)).toBe('https://www.example.com/path/xyz?var=123');
 
             try {
                 var i = new URL('/en-US/docs', '');
-                i.should.eql(false, 'must throw');
+                expect(i).toEqual(false);
             }
             catch(err) {}
 
             try {
                 var j = new URL('/en-US/docs');
-                j.should.eql(false, 'must throw');
+                expect(j).toEqual(false);
             }
             catch(err) {}
         });
@@ -53,54 +53,54 @@ describe('URL', function() {
         it('should return false when url not a valid URL', function () {
             var u;
             u  = URL.parseUrl('/');
-            u.should.eql(false);
+            expect(u).toBe(false);
 
             u = URL.parseUrl('//example.com');
-            u.should.eql(false);
+            expect(u).toBe(false);
 
             u = URL.parseUrl('//example.com/?test=var');
-            u.should.eql(false);
+            expect(u).toBe(false);
 
             u = URL.parseUrl('://example.com');
-            u.should.eql(false);
+            expect(u).toBe(false);
         });
 
         it('should return an instance of URL', function () {
             var u = URL.parseUrl(completeURL);
-            (u instanceof URL).should.be.true();
+            expect(u instanceof URL).toBe(true);
 
-            u.hash.should.eql("#andHash");
-            u.host.should.eql("www.duzun.me:443");
-            u.hostname.should.eql("www.duzun.me");
-            u.href.should.eql(completeURL);
-            u.origin.should.eql("https://www.duzun.me:443");
-            u.password.should.eql("pass");
-            u.pathname.should.eql("/playground/genpasswd");
-            u.port.should.eql("443");
-            u.protocol.should.eql("https:");
-            u.search.should.eql("?some=var&enc=don%27t&e&w=w+w");
-            u.username.should.eql("me");
+            expect(u.hash).toBe("#andHash");
+            expect(u.host).toBe("www.duzun.me:443");
+            expect(u.hostname).toBe("www.duzun.me");
+            expect(u.href).toEqual(completeURL);
+            expect(u.origin).toBe("https://www.duzun.me:443");
+            expect(u.password).toBe("pass");
+            expect(u.pathname).toBe("/playground/genpasswd");
+            expect(u.port).toBe("443");
+            expect(u.protocol).toBe("https:");
+            expect(u.search).toBe("?some=var&enc=don%27t&e&w=w+w");
+            expect(u.username).toBe("me");
 
             // non-standard
-            u.domain.should.eql("duzun.me");
-            u.path.should.eql("/playground/genpasswd?some=var&enc=don%27t&e&w=w+w");
-            u.query.should.eql("some=var&enc=don%27t&e&w=w+w");
+            expect(u.domain).toBe("duzun.me");
+            expect(u.path).toBe("/playground/genpasswd?some=var&enc=don%27t&e&w=w+w");
+            expect(u.query).toBe("some=var&enc=don%27t&e&w=w+w");
         });
     });
 
     describe('URL.parseUrl(url, part)', function () {
         it('should return only the requested part of the parsed URL', function () {
-            URL.parseUrl(completeURL, 'hostname').should.eql("www.duzun.me");
-            URL.parseUrl(completeURL, 'domain').should.eql("duzun.me");
-            URL.parseUrl(completeURL, 'query').should.eql("some=var&enc=don%27t&e&w=w+w");
+            expect(URL.parseUrl(completeURL, 'hostname')).toBe("www.duzun.me");
+            expect(URL.parseUrl(completeURL, 'domain')).toBe("duzun.me");
+            expect(URL.parseUrl(completeURL, 'query')).toBe("some=var&enc=don%27t&e&w=w+w");
         });
     });
 
     describe('URL.parseUrl(url, "query", true)', function () {
         it('should return an object of parsed search query', function () {
             var q = URL.parseUrl(completeURL, 'query', true);
-            q.should.be.an.Object();
-            q.should.eql({w: "w w", e: "", enc: "don't", some: "var"});
+            expect(q instanceof Object).toBe(true);
+            expect(q).toEqual({w: "w w", e: "", enc: "don't", some: "var"});
         });
     });
 
@@ -108,8 +108,8 @@ describe('URL', function() {
         var u;
         it('should return an instance of URL, with parsed .query', function () {
             u = URL.parseUrl(completeURL, undefined, true);
-            (u instanceof URL).should.be.true();
-            u.should.be.an.Object();
+            expect(u instanceof URL).toBe(true);
+            expect(u instanceof Object).toBe(true);
         });
 
         it('should rebuild .search from .query', function () {
@@ -117,10 +117,10 @@ describe('URL', function() {
             delete u.search;
 
             u.query = {x:123};
-            String(u).should.eql(completeURL.replace(/\?[^#]*#/, '?x=123#'));
+            expect(String(u)).toEqual(completeURL.replace(/\?[^#]*#/, '?x=123#'));
 
             u.query = {};
-            String(u).should.eql(completeURL.replace(/\?[^#]*#/, '#'));
+            expect(String(u)).toEqual(completeURL.replace(/\?[^#]*#/, '#'));
         });
     });
 
