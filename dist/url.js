@@ -1,6 +1,6 @@
 /*
  MIT
-  @version 0.2.4
+  @version 0.2.5
   @author Dumitru Uzun (DUzun.Me)
   @umd AMD, Browser, CommonJs, noDeps
 */
@@ -9,8 +9,6 @@
   var encodeURIComponent = $jscomp$destructuring$var0.encodeURIComponent;
   var decodeURIComponent = $jscomp$destructuring$var0.decodeURIComponent;
   var _URL = $jscomp$destructuring$var0.URL;
-  var hop = {}.hasOwnProperty;
-  var trim = "".trim;
   (typeof define !== "function" || !define.amd ? typeof module == "undefined" || !module.exports ? function(deps, factory) {
     var URL = factory();
     URL.noConflict = function() {
@@ -53,11 +51,6 @@
     }
     if (_URL) {
       URL._ = _URL;
-      for (var i in _URL) {
-        if (hop.call(_URL, i)) {
-          URL[i] = _URL[i];
-        }
-      }
     }
     var undefined;
     var _ = URL;
@@ -65,19 +58,12 @@
     var NIL = "";
     var _is_url_r_ = /^[\w.+\-]{3,20}:\/\/[a-z0-9]/i;
     var _is_domain_r_ = /^[a-z0-9][0-9a-z_\-]*(?:\.[a-z0-9][0-9a-z_\-]*)*$/;
+    var _excludeQueryChart_r_ = /[\t\r\n\x09]/g;
     var __ex = typeof Object.defineProperty == "function" ? function(name, func, proto) {
       Object.defineProperty(proto || __, name, {value:func, configurable:true, enumerable:false, writeable:true});
     } : function(name, func, proto) {
       (proto || __)[name] = func;
     };
-    if (typeof trim != "function") {
-      var _ws_ = "\t-\r \u00a0";
-      var _lwsr_ = new RegExp("^[" + _ws_ + "]+");
-      var _rwsr_ = new RegExp("[" + _ws_ + "]+$");
-      _.trim = trim = function() {
-        return String(this).replace(_lwsr_, NIL).replace(_rwsr_, NIL);
-      };
-    }
     var _parse_url_exp = new RegExp(["^([\\w.+\\-\\*]+:)//", "(([^:/?#]*)(?::([^/?#]*))?@|)", "(([^:/?#]*)(?::(\\d+))?)", "(/[^?#]*|)", "(\\?([^#]*)|)", "(#.*|)$"].join(NIL));
     var _parse_url_map = {protocol:1, username:3, password:4, host:5, hostname:6, port:7, pathname:8, search:9, query:10, hash:11};
     function _uri_to_string_() {
@@ -168,14 +154,14 @@
       if (eq == undefined) {
         eq = "=";
       }
-      var j = String(str).split(sep), i = j.length, a = {}, t;
+      var j = String(str.replace(_excludeQueryChart_r_, NIL)).split(sep), i = j.length, a = {}, t;
       ndec = ndec ? decodeAmp : urldecode;
       while (i-- > 0) {
-        if (t = trim.call(j[i])) {
+        if (t = j[i]) {
           t = t.split(eq);
-          j[i] = trim.call(t.splice(0, 1)[0]);
+          j[i] = t.splice(0, 1)[0];
           t = t.join(eq);
-          a[ndec(j[i])] = ndec(trim.call(t));
+          a[ndec(j[i])] = ndec(t);
         }
       }
       return a;

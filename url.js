@@ -37,7 +37,7 @@
  *
  *
  *  @license MIT
- *  @version 0.2.4
+ *  @version 0.2.5
  *  @author Dumitru Uzun (DUzun.Me)
  *  @umd AMD, Browser, CommonJs, noDeps
  */
@@ -54,15 +54,14 @@
         URL: _URL, // in newer browsers there is a URL class
     } = global;
 
-    const hop  = ({}.hasOwnProperty);
-    let trim   = ''.trim;
+    // const hop  = ({}.hasOwnProperty);
 
     // UMD:
     (typeof define !== 'function' || !define.amd
         ? typeof module == 'undefined' || !module.exports
             // Browser
             ? (deps, factory) => {
-                var URL =  factory();
+                var URL = factory();
                 URL.noConflict = function () {
                     if ( global[name] === URL ) global[name] = _URL;
                     return URL;
@@ -106,9 +105,9 @@
         if ( _URL ) {
             URL._ = _URL; // original URL implementation
 
-            for(let i in _URL) if( hop.call(_URL, i) ) {
-                URL[i] = _URL[i];
-            }
+            // for(let i in _URL) if( hop.call(_URL, i) ) {
+            //     URL[i] = _URL[i];
+            // }
         }
 
         // anti-`asshole effect` (eg. undefined = true;)
@@ -121,6 +120,7 @@
         // ---------------------------------------------------------------------------
         ,   _is_url_r_    = /^[\w.+\-]{3,20}\:\/\/[a-z0-9]/i
         ,   _is_domain_r_ = /^[a-z0-9][0-9a-z_\-]*(?:\.[a-z0-9][0-9a-z_\-]*)*$/
+        ,   _excludeQueryChart_r_ = /[\t\r\n\x09]/g
         // ---------------------------------------------------------------------------
         ,   __ex = typeof Object.defineProperty == 'function'
               ? (name, func, proto) => {
@@ -136,17 +136,6 @@
                   (proto||__)[name] = func;
               }
         ;
-        // ---------------------------------------------------------------------------
-        if ( typeof trim != 'function' ) {
-            const _ws_  = "\x09-\x0D\x20\xA0"
-            ,   _lwsr_ = new RegExp('^['+_ws_+']+')
-            ,   _rwsr_ = new RegExp('['+_ws_+']+$')
-            ;
-            _.trim =
-            trim = function () {
-                return String(this).replace(_lwsr_, NIL).replace(_rwsr_, NIL);
-            };
-        }
         // ---------------------------------------------------------------------------
         const _parse_url_exp = new RegExp([
                 '^([\\w.+\\-\\*]+:)//'          // protocol
@@ -243,17 +232,17 @@
         _.toObject = function (str, sep, eq, ndec) {
             if(sep == undefined) sep = '&';
             if(eq == undefined) eq = '=';
-            var j = String(str).split(sep)
+            var j = String(str.replace(_excludeQueryChart_r_, NIL)).split(sep)
             ,   i = j.length
             ,   a = {}
             ,   t
             ;
             ndec = ndec ? decodeAmp : urldecode;
-            while(i-->0) if(t = trim.call(j[i])) {
+            while(i-->0) if(t = j[i]) {
                 t = t.split(eq);
-                j[i] = trim.call(t.splice(0,1)[0]);
+                j[i] = t.splice(0,1)[0];
                 t = t.join(eq);
-                a[ndec(j[i])] = ndec(trim.call(t));
+                a[ndec(j[i])] = ndec(t);
             }
             return a;
         };
