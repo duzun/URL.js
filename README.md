@@ -1,4 +1,7 @@
-# URL.js [![Build Status](https://travis-ci.org/duzun/URL.js.svg?branch=master)](https://travis-ci.org/duzun/URL.js)
+# URL.js 
+
+[![Build Status](https://travis-ci.org/duzun/URL.js.svg?branch=master)](https://travis-ci.org/duzun/URL.js)
+[![codecov](https://codecov.io/gh/duzun/URL.js/branch/master/graph/badge.svg)](https://codecov.io/gh/duzun/URL.js)
 
 Parse and format URLs
 
