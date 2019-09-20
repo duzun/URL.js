@@ -9,7 +9,8 @@
   "reveal": true,
   "scripts": {
     "build": "node build",
-    "test": "mocha --require should --reporter spec",
+    "test": "mocha --require should --reporter spec test.js",
+    "test-cov": "npm run test -- --coverage",
     "verup": "verup"
   },
   "verup": {
@@ -43,6 +44,7 @@
   "devDependencies": {
     "gccs": "^1.3.0",
     "mocha": "^6.1.4",
+    "jest": "^24.9",
     "should": "^13.2.3",
     "verup": "^1.7.0"
   },

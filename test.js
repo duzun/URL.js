@@ -1,6 +1,6 @@
 /*globals require, describe, it*/
 
-var URL = require('..');
+var URL = require('.');
 
 describe('URL', function() {
     var completeURL = 'https://me:pass@www.duzun.me:443/playground/genpasswd?some=var&enc=don%27t&e&w=w+w#andHash';
