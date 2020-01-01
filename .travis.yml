@@ -27,7 +27,7 @@ cache:
         - node_modules
 
 before_script:
-    - npm i -g npx
+    - command -v npx || npm i -g npx
 
 script:
   - npm run test-cov
