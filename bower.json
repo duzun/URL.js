@@ -4,7 +4,7 @@
   "description": "Simple URL parser, similar to DOM URL",
   "main": "url.js",
   "authors": [
-    "Dumitru Uzun <contanct@duzun.me> (https://DUzun.Me)"
+    "Dumitru Uzun <contact@duzun.me> (https://DUzun.Me)"
   ],
   "license": "MIT",
   "keywords": [
