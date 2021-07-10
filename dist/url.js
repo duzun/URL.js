@@ -1,6 +1,6 @@
 /*
  MIT
-  @version 0.2.5
+  @version 0.2.6
   @author Dumitru Uzun (DUzun.Me)
   @umd AMD, Browser, CommonJs, noDeps
 */
