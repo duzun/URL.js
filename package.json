@@ -1,6 +1,6 @@
 {
   "name": "url-js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple URL parser, similar to DOM URL",
   "main": "dist/url.js",
   "module": "url.js",
@@ -18,7 +18,9 @@
       "package-lock.json",
       "bower.json",
       "url/URL.js",
-      "url.js"
+      "url/URL.d.ts",
+      "url.js",
+      "url.d.ts"
     ]
   },
   "repository": {
