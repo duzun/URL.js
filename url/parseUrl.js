@@ -1,4 +1,4 @@
-import { NIL } from './helpers';
+import { NIL, getDomainName } from './helpers';
 import toObject from './toObject';
 
 /*globals URL*/
@@ -57,12 +57,15 @@ export default function parseUrl(href, part, parseQuery) {
             for (i in map) if (map.hasOwnProperty(i)) {
                 ret[i] = match[map[i]] || NIL;
             }
+            if (part && part in ret) return ret[part];
+
             if (!ret.pathname) ret.pathname = '/';
-            ret.path = ret.pathname + ret.search;
-            ret.origin = ret.protocol + '//' + ret.host;
-            ret.domain = ret.hostname.replace(/^www./, NIL).toLowerCase();
+            if (!ret.path) ret.path = ret.pathname + ret.search;
+            if (!ret.origin) ret.origin = ret.protocol + '//' + ret.host;
+            if (!ret.domain) ret.domain = getDomainName(ret.hostname);
             if (parseQuery) ret.query = toObject(ret.query || NIL);
-            ret.href = String(href); // ??? may need some parse
+            if (!ret.origin) ret.href = String(href); // ??? may need some parse
+
             if (part) ret = ret[part];
         }
     }

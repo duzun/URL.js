@@ -31,10 +31,10 @@ describe('URL', function() {
             expect(String(m)).toBe('https://www.example.com/path/xyz?var=123');
             expect(String(n)).toBe('https://www.example.com/path/zyx?u');
 
-            // Rebuild .search from .query and .hostname from .host
-            delete m.search;
-            delete m.hostname;
-            expect(String(m)).toBe('https://www.example.com/path/xyz?var=123');
+            // // Rebuild .search from .query and .hostname from .host
+            // delete m.search;
+            // delete m.hostname;
+            // expect(String(m)).toBe('https://www.example.com/path/xyz?var=123');
 
             try {
                 var i = new URLJS('/en-US/docs', '');
@@ -48,6 +48,111 @@ describe('URL', function() {
             }
             catch(err) {}
         });
+    });
+
+    describe('new URLJS(url, baseURL, true)', function() {
+        it('should return an instance of URL, with parsed .query', function () {
+            var u = new URLJS(completeURL, undefined, true);
+            expect(u instanceof URLJS).toBe(true);
+            expect(u instanceof Object).toBe(true);
+        });
+
+        describe('instanceof URLJS', function () {
+            var u = new URLJS(completeURL);
+            var v = new URLJS(completeURL, undefined, true);
+
+            it('should have base URL parts defined', function () {
+                expect(u.protocol).toEqual('https:');
+                expect(u.username).toEqual('me');
+                expect(u.password).toEqual('pass');
+                expect(u.hostname).toEqual('www.duzun.me');
+                expect(u.port).toEqual('443');
+                expect(u.pathname).toEqual('/playground/genpasswd');
+                expect(u.search).toEqual('?some=var&enc=don%27t&e&w=w+w& white\t = \n space\x09\r ');
+                expect(u.hash).toEqual('#andHash');
+            });
+
+            it('should have computed URL parts defined', function () {
+                expect(u.origin).toEqual('https://www.duzun.me:443');
+                delete u.origin;
+                expect(u.origin).toEqual('https://www.duzun.me:443');
+
+                expect(u.host).toEqual('www.duzun.me:443');
+                delete u.host;
+                expect(u.host).toEqual('www.duzun.me:443');
+
+                expect(u.path).toEqual('/playground/genpasswd?some=var&enc=don%27t&e&w=w+w& white\t = \n space\x09\r ');
+                delete u.path;
+                expect(u.path).toEqual('/playground/genpasswd?some=var&enc=don%27t&e&w=w+w& white\t = \n space\x09\r ');
+
+                expect(u.href).toEqual(completeURL);
+                delete u.href;
+                expect(u.href).toEqual(completeURL);
+            });
+
+            it('should have custom URL parts defined', function () {
+                expect(u.domain).toEqual('duzun.me');
+
+                expect(u.query).toEqual('some=var&enc=don%27t&e&w=w+w& white\t = \n space\x09\r ');
+                expect(v.query).toEqual({ ' white ': '  space ', w: 'w w', e: '', enc: "don't", some: 'var' });
+            });
+
+            it('should set URL parts by .href', function () {
+                u.href = 'ftp://you:pas$@www.cdn.duzun.me:21/npm?var=321#hhh';
+                expect(u.protocol).toEqual('ftp:');
+                expect(u.username).toEqual('you');
+                expect(u.password).toEqual('pas$');
+                expect(u.hostname).toEqual('www.cdn.duzun.me');
+                expect(u.port).toEqual('21');
+                expect(u.pathname).toEqual('/npm');
+                expect(u.search).toEqual('?var=321');
+                expect(u.hash).toEqual('#hhh');
+
+                u.href = 'ftps://duzun.me/npm';
+                expect(u.protocol).toEqual('ftps:');
+                expect(u.username).toEqual('');
+                expect(u.password).toEqual('');
+                expect(u.hostname).toEqual('duzun.me');
+                expect(u.port).toEqual('');
+                expect(u.pathname).toEqual('/npm');
+                expect(u.search).toEqual('');
+                expect(u.hash).toEqual('');
+            });
+
+            it('should set .protocol, .hostname & .port by .origin', function () {
+                u.origin = 'js://npmjs.org:443';
+                expect(u.protocol).toEqual('js:');
+                expect(u.hostname).toEqual('npmjs.org');
+                expect(u.port).toEqual('443');
+            });
+
+            it('should set .hostname & .port by .host', function () {
+                u.host = 'npmjs.org:443';
+                expect(u.hostname).toEqual('npmjs.org');
+                expect(u.port).toEqual('443');
+            });
+
+            it('should set .pathname, .search & .query by .path', function () {
+                u.path = '/new/path.html';
+                expect(u.pathname).toEqual('/new/path.html');
+                expect(u.search).toEqual('');
+                expect(u.query).toEqual('');
+
+                u.path = 'new/path.html?';
+                expect(u.pathname).toEqual('/new/path.html');
+                expect(u.search).toEqual('?');
+                expect(u.query).toEqual('');
+
+                u.path = 'new/path.html?aVar=123';
+                expect(u.pathname).toEqual('/new/path.html');
+                expect(u.search).toEqual('?aVar=123');
+                expect(u.query).toEqual('aVar=123');
+
+                v.path = u.path;
+                expect(v.query).toEqual({aVar: '123'});
+            });
+        });
+
     });
 
     describe('URLJS.parseUrl(url)', function () {
