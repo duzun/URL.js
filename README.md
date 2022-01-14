@@ -87,6 +87,17 @@ import { is_url, is_domain } from 'url-js/url/helpers';
 import URLJS from 'url-js/url/URL'; // the same as 'url-js'
 ```
 
+## Changes in v2.0.0
+
+Some properties of `URLJS` instances are computed from the base properties and can no longer be set to arbitrary values.
+Setting these properties to any value would set the values for related base properties:
+
+`.origin`
+`.host`
+`.path`
+`.href`
+`.domain`
+
 ## Incompatible changes in v1.0.0
 
 When included in global scope with a `<script>` tag,
