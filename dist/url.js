@@ -7,11 +7,17 @@
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
-    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
-      return typeof obj;
-    } : function (obj) {
-      return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    }, _typeof(obj);
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
+    } else {
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
+
+    return _typeof(obj);
   }
 
   var NIL = '';
@@ -80,11 +86,14 @@
   }
 
   /*globals URL*/
+  // const _hostname_norm_exp = /^\\/g;
+
+  var _pathname_norm_exp = /\\+/;
 
   var _parse_url_exp = new RegExp(['^([\\w.+\\-\\*]+:)//' // protocol
   , '(([^:/?#]*)(?::([^/?#]*))?@|)' // username:password
-  , '(([^:/?#]*)(?::(\\d+))?)' // host == hostname:port
-  , '(/[^?#]*|)' // pathname
+  , '\\\\*(([^:/\\\\?#]*)(?::(\\d+))?)' // host == hostname:port
+  , '([/\\\\][^?#]*|)' // pathname
   , '(\\?([^#]*)|)' // search & query
   , '(#.*|)$' // hash
   ].join(NIL));
@@ -109,15 +118,27 @@
         ret = false;
 
     if (match) {
+      // if (i = match[map.hostname]) {
+      //     match[map.hostname] = i.replace(_hostname_norm_exp, '');
+      // }
+      if (i = match[map.pathname]) {
+        match[map.pathname] = i.replace(_pathname_norm_exp, '/');
+      }
+
       if (part && part in map) {
         ret = match[map[part]] || NIL;
 
-        if (part == 'pathname') {
-          if (!ret) ret = '/';
-        }
+        switch (part) {
+          case 'pathname':
+            if (!ret) ret = '/';
+            break;
 
-        if (parseQuery && part == 'query') {
-          ret = toObject(ret || NIL);
+          case 'query':
+            if (parseQuery) {
+              ret = toObject(ret || NIL);
+            }
+
+            break;
         }
       } else {
         var _ = this;
@@ -215,7 +236,7 @@
    *  URL parser.
    *
    *  @license MIT
-   *  @version 2.0.0
+   *  @version 2.1.0
    *  @author Dumitru Uzun (DUzun.Me)
    *  @umd AMD, Browser, CommonJs, noDeps
    */
@@ -248,7 +269,7 @@
         return parseUrl.call(URLJS, _url.origin + _path, undefined, parseQuery);
       }
 
-      throw new SyntaxError("Failed to construct 'URL': Invalid URL");
+      throw new SyntaxError("Failed to construct 'URLJS': Invalid URL");
     }
   } // ---------------------------------------------------------------------------
 
