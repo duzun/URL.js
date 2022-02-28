@@ -31,6 +31,18 @@ describe('URL', function() {
             expect(String(m)).toBe('https://www.example.com/path/xyz?var=123');
             expect(String(n)).toBe('https://www.example.com/path/zyx?u');
 
+            // Potential vulnerbility
+            var v = new URLJS('http://\\\\localhost\\');
+
+            expect(String(v)).toBe('http://localhost/');
+            expect(v.hostname).toBe('localhost');
+            expect(v.pathname).toBe('/');
+
+            v = new URLJS('http://\\\\localhost/\\');
+
+            expect(String(v)).toBe('http://localhost//');
+            expect(v.pathname).toBe('//');
+
             // // Rebuild .search from .query and .hostname from .host
             // delete m.search;
             // delete m.hostname;

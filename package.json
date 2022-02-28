@@ -1,6 +1,6 @@
 {
   "name": "url-js",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Simple URL parser, similar to DOM URL",
   "main": "dist/url.js",
   "module": "url.js",

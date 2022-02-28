@@ -3,11 +3,14 @@ import toObject from './toObject';
 
 /*globals URL*/
 
+// const _hostname_norm_exp = /^\\/g;
+const _pathname_norm_exp = /\\+/;
+
 const _parse_url_exp = new RegExp([
     '^([\\w.+\\-\\*]+:)//'          // protocol
     , '(([^:/?#]*)(?::([^/?#]*))?@|)' // username:password
-    , '(([^:/?#]*)(?::(\\d+))?)'      // host == hostname:port
-    , '(/[^?#]*|)'                    // pathname
+    , '\\\\*(([^:/\\\\?#]*)(?::(\\d+))?)' // host == hostname:port
+    , '([/\\\\][^?#]*|)'              // pathname
     , '(\\?([^#]*)|)'                 // search & query
     , '(#.*|)$'                       // hash
 ].join(NIL));
@@ -32,13 +35,25 @@ export default function parseUrl(href, part, parseQuery) {
         , i, ret = false
         ;
     if (match) {
+        // if (i = match[map.hostname]) {
+        //     match[map.hostname] = i.replace(_hostname_norm_exp, '');
+        // }
+        if (i = match[map.pathname]) {
+            match[map.pathname] = i.replace(_pathname_norm_exp, '/');
+        }
+
         if (part && part in map) {
             ret = match[map[part]] || NIL;
-            if (part == 'pathname') {
-                if (!ret) ret = '/';
-            }
-            if (parseQuery && part == 'query') {
-                ret = toObject(ret || NIL);
+            switch (part) {
+                case 'pathname':
+                    if (!ret) ret = '/';
+                break;
+
+                case 'query':
+                    if (parseQuery) {
+                        ret = toObject(ret || NIL);
+                    }
+                break;
             }
         }
         else {

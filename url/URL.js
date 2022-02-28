@@ -8,7 +8,7 @@ import { NIL, defProp, is_domain, is_url, getDomainName } from './helpers';
  *  URL parser.
  *
  *  @license MIT
- *  @version 2.0.0
+ *  @version 2.1.0
  *  @author Dumitru Uzun (DUzun.Me)
  *  @umd AMD, Browser, CommonJs, noDeps
  */
@@ -34,7 +34,7 @@ export default function URLJS(url, baseURL, parseQuery) {
             }
             return parseUrl.call(URLJS, _url.origin + _path, undefined, parseQuery);
         }
-        throw new SyntaxError(`Failed to construct 'URL': Invalid URL`);
+        throw new SyntaxError(`Failed to construct 'URLJS': Invalid URL`);
     }
 }
 
